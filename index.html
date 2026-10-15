@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17102e">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Tebak Kata!</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;800&display=swap" rel="stylesheet">
 <style>
@@ -13,27 +15,41 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
 body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:"Baloo 2",system-ui,sans-serif;transition:background .25s;overflow:hidden}
 body.hot{background:var(--hot)}body.ok{background:var(--ok)}body.no{background:var(--no)}
-.scr{display:none;height:100%;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;gap:14px;box-sizing:border-box}
+.scr{display:none;height:100%;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;padding:max(14px,2.5vh) max(20px,env(safe-area-inset-right,0px)) max(14px,2.5vh) max(20px,env(safe-area-inset-left,0px));gap:clamp(8px,2vh,14px);box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain}
+.scr>:first-child{margin-top:auto}.scr>:last-child{margin-bottom:auto}
 .scr.on{display:flex}
-h1{font-size:clamp(48px,16vw,92px);line-height:.9;margin:0;font-weight:800}
-p{margin:0;color:var(--mut);font-size:18px;max-width:340px;line-height:1.3}
-button{font:inherit;font-weight:800;font-size:22px;border:0;border-radius:20px;padding:14px 30px;color:#fff;background:var(--acc);cursor:pointer;touch-action:manipulation}
+h1{font-size:clamp(40px,min(16vw,20vh),92px);line-height:.9;margin:0;font-weight:800}
+p{margin:0;color:var(--mut);font-size:clamp(14px,2.6vh,18px);max-width:340px;line-height:1.3}
+button{font:inherit;font-weight:800;font-size:clamp(18px,4.5vh,22px);border:0;border-radius:20px;padding:clamp(9px,2.2vh,14px) 30px;color:#fff;background:var(--acc);cursor:pointer;touch-action:manipulation}
 button:active{transform:scale(.96)}button:focus-visible{outline:3px solid var(--fg);outline-offset:3px}
-#cdn{font-size:min(60vw,260px);font-weight:800;line-height:1}
-.top{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:560px;font-size:26px;font-weight:800}
-#time{font-size:56px;line-height:1}
+#cdn{font-size:min(60vw,55vh,260px);font-weight:800;line-height:1}
+.top{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:560px;font-size:clamp(18px,4.5vh,26px);font-weight:800}
+#time{font-size:clamp(34px,10vh,56px);line-height:1}
 .hot #time{color:var(--no)}
 .bar{width:100%;max-width:560px;height:12px;border-radius:6px;background:var(--bar);overflow:hidden}
 #fill{height:100%;width:100%;background:var(--acc);transition:width .1s linear}
 .hot #fill{background:var(--no)}
-#word{flex:1;display:flex;align-items:center;justify-content:center;font-size:clamp(36px,12vw,84px);font-weight:800;line-height:1;word-break:break-word;max-width:100%;padding:0 8px}
+#word{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;font-size:clamp(30px,min(12vw,22vh),84px);font-weight:800;line-height:1.05;word-break:break-word;max-width:100%;padding:0 8px}
 .row{display:flex;gap:12px;width:100%;max-width:560px}
-.row button{flex:1;padding:22px 8px;font-size:26px}
+.row button{flex:1;padding:clamp(10px,3.4vh,22px) 8px;font-size:clamp(18px,4.8vh,26px)}
 #bn{background:var(--no)}#bo{background:var(--ok)}.row #bs{background:var(--mut);flex:.7;font-size:18px}
-.big{font-size:min(40vw,150px);font-weight:800;line-height:1}
+.big{font-size:min(40vw,32vh,150px);font-weight:800;line-height:1}
 #list{width:100%;max-width:420px;max-height:34vh;overflow-y:auto;background:var(--card);border-radius:18px;padding:8px 16px;box-sizing:border-box;text-align:left;font-size:19px}
 #list div{padding:3px 0}.y{color:var(--ok)}.n{color:var(--no)}
-#mic{font-size:14px;min-height:18px}
+#mic{font-size:clamp(11px,2.2vh,14px);min-height:1.3em}
+@media (orientation:landscape) and (max-height:560px){
+#home.on{display:grid;grid-template-columns:1fr 1fr;align-content:center;justify-items:center;align-items:center;column-gap:28px;row-gap:10px}
+#home>*{margin:0!important}
+#home h1{grid-column:1;grid-row:1/span 4}
+#home>:not(h1){grid-column:2}
+#end.on{display:grid;grid-template-columns:1fr 1fr;align-content:center;justify-items:center;align-items:center;column-gap:28px;row-gap:6px}
+#end>*{margin:0!important}
+#end>:nth-child(1){grid-column:1;grid-row:1}
+#end>:nth-child(2){grid-column:1;grid-row:2}
+#end>:nth-child(3){grid-column:1;grid-row:3}
+#end>#list{grid-column:2;grid-row:1/span 4;max-height:80vh}
+#end>#again{grid-column:1;grid-row:4}
+}
 </style>
 </head>
 <body>
@@ -75,11 +91,19 @@ let ac,q=[],t0,iv,score,log,cur,lastKey,live=false;
 function snd(f,d,type="sine",v=.15,delay=0){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state=="suspended")ac.resume();const o=ac.createOscillator(),g=ac.createGain(),s=ac.currentTime+delay;o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g).connect(ac.destination);o.start(s);o.stop(s+d)}catch(e){}}
 function vib(n){try{navigator.vibrate&&navigator.vibrate(n)}catch(e){}}
 function show(id){document.querySelectorAll(".scr").forEach(e=>e.classList.toggle("on",e.id==id))}
-function next(){if(!q.length){q=W.slice();for(let i=q.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[q[i],q[j]]=[q[j],q[i]]}}cur=q.pop();$("word").textContent=cur}
+const U=[...new Set(W.map(x=>x.trim()).filter(Boolean))];
+function rnd(n){try{const a=new Uint32Array(1),lim=4294967296-4294967296%n;let x;do{crypto.getRandomValues(a);x=a[0]}while(x>=lim);return x%n}catch(e){return Math.random()*n|0}}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a}
+function loadDeck(){try{const d=JSON.parse(localStorage.getItem("tk-deck")||"[]"),ok=new Set(U);return Array.isArray(d)?d.filter(w=>ok.has(w)):[]}catch(e){return[]}}
+function saveDeck(){try{localStorage.setItem("tk-deck",JSON.stringify(q))}catch(e){}}
+function next(){
+ if(!q.length){const last=cur;q=shuffle(U.slice());const L=q.length-1;if(q[L]===last&&L>0){const j=rnd(L);[q[L],q[j]]=[q[j],q[L]]}}
+ cur=q.pop();$("word").textContent=cur;saveDeck()}
+function fs(){try{const el=document.documentElement,f=el.requestFullscreen||el.webkitRequestFullscreen;if(f&&!document.fullscreenElement&&!document.webkitFullscreenElement){const p=f.call(el,{navigationUI:"hide"});p&&p.catch&&p.catch(()=>{})}}catch(e){}}
 function flash(c){document.body.classList.add(c);setTimeout(()=>document.body.classList.remove(c),180)}
 function best(){try{const b=localStorage.getItem("tk-best");$("best").textContent=b?"Rekor terbaikmu: "+b+" kata":""}catch(e){}}
 function start(){
- startRec();score=0;log=[];q=[];$("sc").textContent=0;show("cd");let n=3;$("cdn").textContent=n;snd(520,.25,"square",.2);
+ fs();startRec();score=0;log=[];q=loadDeck();$("sc").textContent=0;show("cd");let n=3;$("cdn").textContent=n;snd(520,.25,"square",.2);
  const c=setInterval(()=>{n--;if(n>0){$("cdn").textContent=n;snd(520,.25,"square",.2)}else{clearInterval(c);snd(1040,.5,"square",.2);play()}},900)}
 function play(){
  show("play");next();live=true;lastKey=-1;t0=performance.now();document.body.classList.remove("hot");
